@@ -83,5 +83,10 @@ async def on_message(message: discord.Message):
       await message.channel.send(embed = inviteEmbed)
       print(f" [" + utcTime() + "] " + "[abs!invite Triggered] " + "[" + dcServer + ": " + dcChannel + "] ")
 
+    if dcMessage.startswith('abs!activity'):
+      await client.change_presence(activity=discord.Game(name='abs!help'))
+      await message.channel.send("Activity updated.")
+      print(f" [" + utcTime() + "] " + "[abs!activity Triggered] " + "[" + dcServer + ": " + dcChannel + "] ")
+
 
 client.run(os.getenv('TOKEN'))
