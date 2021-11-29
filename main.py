@@ -47,11 +47,12 @@ async def on_message(message: discord.Message):
 
         dcEmbed = embed.author.url
         
-        if any(x in dcEmbed for x in database):
-            await message.delete()
-            print(f" [" + utcTime() + "] " + "[Message Deleted] " + "[" + dcServer + ": " + dcChannel + "] " + dcMessage)
-            await message.channel.send('https://i.vgy.me/qLhqkK.png')
-            print(f" [" + utcTime() + "] " + "[Embed Sent - Video Trigger] " + "[" + dcServer + ": " + dcChannel + "] ")
+        if dcEmbed:
+          if any(x in dcEmbed for x in database):
+              await message.delete()
+              print(f" [" + utcTime() + "] " + "[Message Deleted] " + "[" + dcServer + ": " + dcChannel + "] " + dcMessage)
+              await message.channel.send('https://i.vgy.me/qLhqkK.png')
+              print(f" [" + utcTime() + "] " + "[Embed Sent - Video Trigger] " + "[" + dcServer + ": " + dcChannel + "] ")
     
     if dcMessage.startswith('abs!about'):
       embedVar = discord.Embed(title = "AntiBadSubs Bot", description = "Remove all known bad subbers.")
