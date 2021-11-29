@@ -13,7 +13,7 @@ import discord
 
 client = discord.Client()
 
-database = ['OtakMoriTranslationsVTubers', 'UCF4-I8ZQL6Aa-iHfdz-B9KQ', 'UCizN2tVLNcwP67bAHlVRg1Q']
+database = ['OtakMoriTranslationsVTubers', 'UCF4-I8ZQL6Aa-iHfdz-B9KQ', 'UCizN2tVLNcwP67bAHlVRg1Q', 'UC1Ysc66Fb-E-3UH4Jb9padA', 'UC0zZ3QsUhYq6hQ0A-_THfgA', 'UC3hXsep6P_d1Z5opjCDFUqA']	
 
 def utcTime():
   utcTimestr = datetime.utcnow().strftime("%m/%d/%Y, %H:%M:%S")
