@@ -20,27 +20,32 @@ async def on_ready():
 @client.event
 async def on_message(message: discord.Message):
     
-    if message.author == client.user:
+    if message.author.bot:
         return
 
-    if any(x in message.content for x in database):
+    dcMessage = message.content
+
+    if any(x in dcMessage for x in database):
         await message.delete()
         await message.channel.send('https://i.vgy.me/qLhqkK.png')
 
     embed: discord.Embed
     for embed in message.embeds:
-        if any(x in embed.author.url for x in database):
+
+        dcEmbed = embed.author.url
+
+        if any(x in dcEmbed for x in database):
             await message.delete()
             await message.channel.send('https://i.vgy.me/qLhqkK.png')
     
-    if message.content.startswith('abs!about'):
+    if dcMessage.startswith('abs!about'):
       embedVar = discord.Embed(title = "AntiBadSubs Bot", description = "Remove all known bad subbers.")
       await message.channel.send(embed = embedVar)
 
-    if message.content.startswith('abs!list'):
+    if dcMessage.startswith('abs!list'):
       await message.channel.send("<https://docs.google.com/spreadsheets/d/1GF_QC5XpvUgFAYqvUTvLyaf3SwzPHpSiQEJwz6hTo_c/edit?usp=sharing>")
 
-    if message.content.startswith('abs!invite'):
+    if dcMessage.startswith('abs!invite'):
       await message.channel.send("<https://discord.com/api/oauth2/authorize?client_id=896309801875812362&permissions=532576462912&scope=bot>")
 
 
