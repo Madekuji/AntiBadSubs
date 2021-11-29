@@ -3,7 +3,11 @@
 
 from keep_alive import keep_alive
 
+from dotenv import load_dotenv
+
 import os
+
+load_dotenv('.env')
 
 import discord
 
@@ -50,4 +54,4 @@ async def on_message(message: discord.Message):
 
 
 keep_alive()
-client.run(os.environ['TOKEN'])
+client.run(os.getenv('TOKEN'))
