@@ -1,8 +1,6 @@
 # Original code from https://github.com/Ryu1845/delete_otak
 # Modified by Madekuji-san
 
-from keep_alive import keep_alive
-
 from dotenv import load_dotenv
 
 import os
@@ -53,5 +51,4 @@ async def on_message(message: discord.Message):
       await message.channel.send("<https://discord.com/api/oauth2/authorize?client_id=896309801875812362&permissions=532576462912&scope=bot>")
 
 
-keep_alive()
 client.run(os.getenv('TOKEN'))
