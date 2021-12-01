@@ -7,9 +7,13 @@ This bot will try to read every message sent into the server that the bot is pre
 
 ---
 
+## Note
+
+The bot is still in early stages, so the code isn't that clean or optimized. I'm also not that great at Python. If you would like to help out, feel free to fork the project, make pull requests, and all that good stuff! I'm also actively looking out for contributors who can help.
+
 ## Invite bot
 
->The bot server is currently undergoing testing, so invites are only stuck to servers that already have the bot present for now. The bot also has a limit of 100 servers as imposed by Discord.
+>The bot server is currently undergoing testing, so invites are only available to servers that already have the bot present for now as well as those who ask. The production version is currently hosted on a garbage Google Cloud server. The bot also has a limit of 100 servers as imposed by Discord.
 
 1. Invite to the server using the link.
 2. Limit the bot only to channels that you would like by limiting the bot's view permissions using your server settings. Or let it read all the channels, your choice.
@@ -59,5 +63,6 @@ Bot permissions:
 I cannot be held liable should the bot end up deleting the wrong messages or not properly deleting messages. You are granting the ability for the bot to read and delete messages, and you should be careful with this permission. If you encounter an issue with the bot, do not hesitate to contact me as soon as possible in order to resolve the issue.
 
 ## Credits
+
 - Special thanks to [Ryu1845](https://github.com/Ryu1845) for their original `delete_otak` Python Discord bot that is part of the core code for this bot. The original repository for it can be found here: https://github.com/Ryu1845/delete_otak
 - Thanks to my friends for helping test the bot in its various stages of development as well as giving advice throughout. Y'all know who you are.
