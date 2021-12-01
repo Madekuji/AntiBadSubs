@@ -4,8 +4,8 @@
 from dotenv import load_dotenv
 from datetime import datetime
 
-
 import os
+import pandas as pd
 
 load_dotenv('.env')
 
@@ -14,6 +14,14 @@ import discord
 client = discord.Client()
 
 database = ['OtakMoriTranslationsVTubers', 'UCF4-I8ZQL6Aa-iHfdz-B9KQ', 'UCizN2tVLNcwP67bAHlVRg1Q', 'UC1Ysc66Fb-E-3UH4Jb9padA', 'UC0zZ3QsUhYq6hQ0A-_THfgA', 'UC3hXsep6P_d1Z5opjCDFUqA']	
+
+def incrementDB(id):
+  df = pd.read_csv("maindb.csv")
+  dbValueVar = df.loc[id, 'Value']
+  dbValueVar += 1
+  df.loc[id, 'Value'] = dbValueVar
+  df.to_csv("maindb.csv", index=False)
+  return dbValueVar
 
 def utcTime():
   utcTimestr = datetime.utcnow().strftime("%m/%d/%Y, %H:%M:%S")
@@ -35,6 +43,12 @@ inviteEmbed=discord.Embed(title="Invite this bot to your server!", url="https://
 inviteEmbed.set_author(name="AntiBadSubs Bot")
 inviteEmbed.set_thumbnail(url="https://i.vgy.me/tWyCbF.png")
 
+helpEmbed=discord.Embed(title="List of Commands", description="All commands start with the prefix `abs!`")
+helpEmbed.set_author(name="AntiBadSubs", icon_url="https://i.vgy.me/wWzvwy.png")
+helpEmbed.add_field(name="about", value="Get more info about the bot.", inline=False)
+helpEmbed.add_field(name="list", value="Get the global spreadsheet of channels that are blacklisted.", inline=False)
+helpEmbed.add_field(name="invite", value="Get the invite link of the bot to invite it to your server. Please note that the bot only has a limit of 100 servers and is undergoing testing phase.", inline=False)
+
 @client.event
 async def on_ready():
     print(f"We have logged in as {client.user}")
@@ -55,6 +69,9 @@ async def on_message(message: discord.Message):
     if any(x in dcMessage for x in database):
         await message.delete()
         print(f" [" + utcTime() + "] " + "[Message Deleted] " + "[" + dcServer + ": " + dcChannel + "] " + dcMessage)
+        channelEmbed.set_footer(text=("Deleted " + str(incrementDB(0)) + " bad links so far."))
+        incrementDB(1)
+        print(f" [" + utcTime() + "] " + "[Database Updated]")
         await message.channel.send(embed = channelEmbed)
         print(f" [" + utcTime() + "] " + "[Embed Sent - Channel Trigger] " + "[" + dcServer + ": " + dcChannel + "] ")
 
@@ -67,6 +84,9 @@ async def on_message(message: discord.Message):
           if any(x in dcEmbed for x in database):
               await message.delete()
               print(f" [" + utcTime() + "] " + "[Message Deleted] " + "[" + dcServer + ": " + dcChannel + "] " + dcMessage)
+              videoEmbed.set_footer(text=("Deleted " + str(incrementDB(0)) + " bad links so far."))
+              incrementDB(2)
+              print(f" [" + utcTime() + "] " + "[Database Updated]")
               await message.channel.send(embed = videoEmbed)
               print(f" [" + utcTime() + "] " + "[Embed Sent - Video Trigger] " + "[" + dcServer + ": " + dcChannel + "] ")
     
@@ -87,6 +107,10 @@ async def on_message(message: discord.Message):
       await client.change_presence(activity=discord.Game(name='abs!help'))
       await message.channel.send("Activity updated.")
       print(f" [" + utcTime() + "] " + "[abs!activity Triggered] " + "[" + dcServer + ": " + dcChannel + "] ")
+
+    if dcMessage.startswith('abs!help'):
+      await message.channel.send(embed = helpEmbed)
+      print(f" [" + utcTime() + "] " + "[abs!help Triggered] " + "[" + dcServer + ": " + dcChannel + "] ")
 
 
 client.run(os.getenv('TOKEN'))
