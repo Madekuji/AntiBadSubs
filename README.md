@@ -58,6 +58,9 @@ Bot permissions:
 - Attach Files
 - Read Message History
 
+## Known bugs
+- There's currently a bug where the first video embed will not be detected by the bot. After sending the first video link, the bot will proceed to work as normal.
+
 ## Warranty
 
 I cannot be held liable should the bot end up deleting the wrong messages or not properly deleting messages. You are granting the ability for the bot to read and delete messages, and you should be careful with this permission. If you encounter an issue with the bot, do not hesitate to contact me as soon as possible in order to resolve the issue.
