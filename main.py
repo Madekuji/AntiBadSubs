@@ -27,6 +27,15 @@ def utcTime():
   utcTimestr = datetime.utcnow().strftime("%m/%d/%Y, %H:%M:%S")
   return utcTimestr
 
+def mainLogger(activity, ifWrite):
+      log = "[" + utcTime() + "] " + "[" + activity + "]"
+      if ifWrite:
+        writeProc = open("log.txt", "a")
+        writeProc.write(log + "\n")
+        writeProc.close()
+      print(log)
+      return None
+
 channelEmbed=discord.Embed(title="You posted a bad channel!", description="The channel you sent is known to be a bad clipper who harms talents through their focus on clickbait, bad metadata, mistranslation, or doxxing. Please consider looking for clips elsewhere.", color=0xcc0000)
 channelEmbed.set_author(name="AntiBadSubs", icon_url="https://i.vgy.me/wWzvwy.png")
 channelEmbed.set_thumbnail(url="https://i.vgy.me/qLhqkK.png")
@@ -51,7 +60,7 @@ helpEmbed.add_field(name="invite", value="Get the invite link of the bot to invi
 
 @client.event
 async def on_ready():
-    print(f"We have logged in as {client.user}")
+    mainLogger(f"We have logged in as {client.user}", True)
 
 
 @client.event
@@ -64,16 +73,30 @@ async def on_message(message: discord.Message):
     dcServer = message.guild.name
     dcChannel = message.channel.name
 
-    print(f" [" + utcTime() + "] " + "[Message Read] " + "[" + dcServer + ": " + dcChannel + "] " + dcMessage)
+    def dcLogger(activity, ifChannel, ifMessage, ifWrite):
+      if ifChannel and ifMessage:
+        log = "[" + utcTime() + "] " + "[" + activity + "] " + "[" + dcServer + ": " + dcChannel + "] " + dcMessage
+      elif ifChannel:
+        log = "[" + utcTime() + "] " + "[" + activity + "] " + "[" + dcServer + ": " + dcChannel + "]"
+      else:
+        log = "[" + utcTime() + "] " + "[" + activity + "]"
+      if ifWrite:
+        writeProc = open("log.txt", "a")
+        writeProc.write(log + "\n")
+        writeProc.close()
+      print(log)
+      return None
+
+    dcLogger("Message Read", True, True, False)
 
     if any(x in dcMessage for x in database):
         await message.delete()
-        print(f" [" + utcTime() + "] " + "[Message Deleted] " + "[" + dcServer + ": " + dcChannel + "] " + dcMessage)
+        dcLogger("Message Deleted", True, True, True)
         channelEmbed.set_footer(text=("Deleted " + str(incrementDB(0)) + " bad links so far."))
         incrementDB(1)
-        print(f" [" + utcTime() + "] " + "[Database Updated]")
+        dcLogger("Database Updated", False, False, True)
         await message.channel.send(embed = channelEmbed)
-        print(f" [" + utcTime() + "] " + "[Embed Sent - Channel Trigger] " + "[" + dcServer + ": " + dcChannel + "] ")
+        dcLogger("Embed Sent - Channel Trigger", True, False, True)
 
     embed: discord.Embed
     for embed in message.embeds:
@@ -83,34 +106,34 @@ async def on_message(message: discord.Message):
         if dcEmbed:
           if any(x in dcEmbed for x in database):
               await message.delete()
-              print(f" [" + utcTime() + "] " + "[Message Deleted] " + "[" + dcServer + ": " + dcChannel + "] " + dcMessage)
+              dcLogger("Message Deleted", True, True, True)
               videoEmbed.set_footer(text=("Deleted " + str(incrementDB(0)) + " bad links so far."))
               incrementDB(2)
-              print(f" [" + utcTime() + "] " + "[Database Updated]")
+              dcLogger("Database Updated", False, False, True)
               await message.channel.send(embed = videoEmbed)
-              print(f" [" + utcTime() + "] " + "[Embed Sent - Video Trigger] " + "[" + dcServer + ": " + dcChannel + "] ")
+              dcLogger("Embed Sent - Video Trigger", True, False, True)
     
     if dcMessage.startswith('abs!about'):
       await message.channel.send(embed = aboutEmbed)
-      print(f" [" + utcTime() + "] " + "[abs!about Triggered] " + "[" + dcServer + ": " + dcChannel + "] ")
+      dcLogger("abs!about Triggered", True, False, False)
 
     if dcMessage.startswith('abs!list'):
       await message.channel.send("<https://docs.google.com/spreadsheets/d/1GF_QC5XpvUgFAYqvUTvLyaf3SwzPHpSiQEJwz6hTo_c/edit?usp=sharing>")
-      print(f" [" + utcTime() + "] " + "[abs!list Triggered] " + "[" + dcServer + ": " + dcChannel + "] ")
+      dcLogger("abs!list Triggered", True, False, False)
 
     if dcMessage.startswith('abs!invite'):
       inviteEmbed.set_footer(text=("Bot server limit: " + str(len(client.guilds)) + "/100"))
       await message.channel.send(embed = inviteEmbed)
-      print(f" [" + utcTime() + "] " + "[abs!invite Triggered] " + "[" + dcServer + ": " + dcChannel + "] ")
+      dcLogger("abs!invite Triggered", True, False, False)
 
     if dcMessage.startswith('abs!activity'):
       await client.change_presence(activity=discord.Game(name='abs!help'))
       await message.channel.send("Activity updated.")
-      print(f" [" + utcTime() + "] " + "[abs!activity Triggered] " + "[" + dcServer + ": " + dcChannel + "] ")
+      dcLogger("abs!activity Triggered", True, False, True)
 
     if dcMessage.startswith('abs!help'):
       await message.channel.send(embed = helpEmbed)
-      print(f" [" + utcTime() + "] " + "[abs!help Triggered] " + "[" + dcServer + ": " + dcChannel + "] ")
+      dcLogger("abs!help Triggered", True, False, False)
 
 
 client.run(os.getenv('TOKEN'))
