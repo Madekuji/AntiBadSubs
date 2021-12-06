@@ -43,7 +43,7 @@ inviteEmbed=discord.Embed(title="Invite this bot to your server!", url="https://
 inviteEmbed.set_author(name="AntiBadSubs Bot")
 inviteEmbed.set_thumbnail(url="https://i.vgy.me/tWyCbF.png")
 
-helpEmbed=discord.Embed(title="List of Commands", description="All commands start with the prefix `abs!`")
+helpEmbed=discord.Embed(title="List of Commands", description="All commands start with the prefix `abs!`", color=0xcc0000)
 helpEmbed.set_author(name="AntiBadSubs", icon_url="https://i.vgy.me/wWzvwy.png")
 helpEmbed.add_field(name="about", value="Get more info about the bot.", inline=False)
 helpEmbed.add_field(name="list", value="Get the global spreadsheet of channels that are blacklisted.", inline=False)
