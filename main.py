@@ -23,6 +23,13 @@ def incrementDB(id):
   df.to_csv("maindb.csv", index=False)
   return dbValueVar
 
+def returnDB(id):
+  df = pd.read_csv("maindb.csv")
+  dbValueVar = df.loc[id, 'Value']
+  df.loc[id, 'Value'] = dbValueVar
+  df.to_csv("maindb.csv", index=False)
+  return dbValueVar
+
 def utcTime():
   utcTimestr = datetime.utcnow().strftime("%m/%d/%Y, %H:%M:%S")
   return utcTimestr
@@ -57,6 +64,10 @@ helpEmbed.set_author(name="AntiBadSubs", icon_url="https://i.vgy.me/wWzvwy.png")
 helpEmbed.add_field(name="about", value="Get more info about the bot.", inline=False)
 helpEmbed.add_field(name="list", value="Get the global spreadsheet of channels that are blacklisted.", inline=False)
 helpEmbed.add_field(name="invite", value="Get the invite link of the bot to invite it to your server. Please note that the bot only has a limit of 100 servers and is undergoing testing phase.", inline=False)
+
+statsEmbed=discord.Embed(title="Bot Stats", color=0xcc0000)
+statsEmbed.set_author(name="AntiBadSubs", icon_url="https://i.vgy.me/wWzvwy.png")
+statsEmbed.add_field(name="Name", value="Servers invited to: \nTotal links deleted: \nChannel links deleted: \nVideo links deleted: ", inline=True)
 
 @client.event
 async def on_ready():
@@ -134,6 +145,11 @@ async def on_message(message: discord.Message):
     if dcMessage.startswith('abs!help'):
       await message.channel.send(embed = helpEmbed)
       dcLogger("abs!help Triggered", True, False, False)
+    
+    if dcMessage.startswith('abs!stats'):
+      statsEmbed.add_field(name="Value", value=(str(len(client.guilds)) + "\n" + str(returnDB(0)) + "\n" + str(returnDB(1)) + "\n" + str(returnDB(2))), inline=True)
+      await message.channel.send(embed = statsEmbed)
+      dcLogger("abs!stats Triggered", True, False, False)
 
 
 client.run(os.getenv('TOKEN'))
