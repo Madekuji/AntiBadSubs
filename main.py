@@ -52,7 +52,7 @@ videoEmbed=discord.Embed(title="You posted a bad sub!", description="The video y
 videoEmbed.set_author(name="AntiBadSubs", icon_url="https://i.vgy.me/wWzvwy.png")
 videoEmbed.set_thumbnail(url="https://i.vgy.me/qLhqkK.png")
 
-aboutEmbed=discord.Embed(title=absVersion, description="This bot will remove messages containing links to videos from known bad subbers and clippers, as well as their channel links.", color=0xcc0000)
+aboutEmbed=discord.Embed(title=absVersion, description="This bot will automatically remove messages containing links to videos from known bad subbers and clippers, as well as their channel links.", color=0xcc0000)
 aboutEmbed.set_thumbnail(url="https://i.vgy.me/tWyCbF.png")
 aboutEmbed.add_field(name=chr(173), value="[The bot is available on GitHub.](https://github.com/Madekuji/AntiBadSubs)", inline=True)
 
