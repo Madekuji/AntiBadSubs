@@ -118,15 +118,14 @@ async def on_message(message: discord.Message):
 
         dcEmbed = embed.author.url
         
-        if dcEmbed:
-          if any(x in dcEmbed for x in database):
-              await message.delete()
-              dcLogger("Message Deleted", True, True, True)
-              videoEmbed.set_footer(text=("Deleted " + str(incrementDB(0)) + " bad links so far."))
-              incrementDB(2)
-              dcLogger("Database Updated", False, False, True)
-              await message.channel.send(embed = videoEmbed)
-              dcLogger("Embed Sent - Video Trigger", True, False, True)
+        if any(x in dcEmbed for x in database):
+          await message.delete()
+          dcLogger("Message Deleted", True, True, True)
+          videoEmbed.set_footer(text=("Deleted " + str(incrementDB(0)) + " bad links so far."))
+          incrementDB(2)
+          dcLogger("Database Updated", False, False, True)
+          await message.channel.send(embed = videoEmbed)
+          dcLogger("Embed Sent - Video Trigger", True, False, True)
     
     if dcMessage.startswith('abs!about'):
       await message.channel.send(embed = aboutEmbed)
