@@ -1,6 +1,6 @@
 # Original code from https://github.com/Ryu1845/delete_otak
 # Modified by Madekuji-san
-absVersion = "AntiBadSubs v1.1 DEV"
+absVersion = "AntiBadSubs v1.1"
 
 from dotenv import load_dotenv
 from datetime import datetime
